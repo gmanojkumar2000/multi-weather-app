@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+
 from services.geocode import geocode_city, search_cities
 from services.weather import get_current_weather
-from cache import cache
 
 app = FastAPI(
     title="Weather-Now API",
@@ -10,8 +10,8 @@ app = FastAPI(
     version="1.0.0",
     openapi_tags=[
         {"name": "weather", "description": "Weather endpoints"},
-        {"name": "search", "description": "City search endpoints"}
-    ]
+        {"name": "search", "description": "City search endpoints"},
+    ],
 )
 
 app.add_middleware(
@@ -22,9 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/", tags=["health"])
 async def root():
     return {"status": "ok"}
+
 
 @app.get("/weather", tags=["weather"])
 async def get_weather(location: str = Query(..., description="City name or lat,lon")):
@@ -40,11 +42,12 @@ async def get_weather(location: str = Query(..., description="City name or lat,l
             "city": city_info.get("name"),
             "latitude": lat,
             "longitude": lon,
-            **weather
+            **weather,
         }
     except ValueError:
-        raise HTTPException(status_code=404, detail="City not found")
+        raise HTTPException(status_code=404, detail="City not found") from None
+
 
 @app.get("/search", tags=["search"])
 async def search(query: str = Query(..., min_length=2)):
-    return await search_cities(query) 
+    return await search_cities(query)

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchWeather, searchCities, WeatherResult, CitySuggestion } from "./api";
-import { WeatherCard, WeatherIcon } from "./components/WeatherCard";
+import { WeatherCard } from "./components/WeatherCard";
 import { SkeletonCard } from "./components/SkeletonCard";
 
 export default function App() {
@@ -107,4 +107,4 @@ export default function App() {
       <footer className="mt-8 text-xs text-gray-400">Powered by <a href="https://open-meteo.com/" className="underline">Open-Meteo</a></footer>
     </main>
   );
-} 
+}
