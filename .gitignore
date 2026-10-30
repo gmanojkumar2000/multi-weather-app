@@ -32,3 +32,12 @@ Thumbs.db
 *.log
 *.tmp
 *.temp
+
+# Secret & key protections, databases
+*.pem
+*.key
+*secret*
+*credential*
+*.sqlite
+*.sqlite3
+*.db
